@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { PieChart, Pie, Tooltip } from "recharts";
+import results from "./data/results.json";
 
 const COLORS = ["#4d79ff", "#009933", "#b38f00", "#ff1a1a"];
 
@@ -8,7 +9,7 @@ class TypeHistoryChart extends Component {
     super(props);
     this.state = {
       types: [],
-      chartData: []
+      chartData: results
     };
   }
 
@@ -17,7 +18,7 @@ class TypeHistoryChart extends Component {
     this.setState({
       types: typeBody
     });
-    this.toChartData();
+    // this.toChartData();
   }
 
   async toChartData() {
@@ -37,6 +38,7 @@ class TypeHistoryChart extends Component {
         fill: COLORS[index % 4]
       });
     }
+    
     this.setState({
       chartData: resultData
     });

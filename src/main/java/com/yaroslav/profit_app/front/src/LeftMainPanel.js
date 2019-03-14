@@ -15,6 +15,8 @@ import RadioGroup from "@material-ui/core/RadioGroup";
 import { InlineDatePicker } from "material-ui-pickers";
 import moment from "moment";
 import { withSnackbar } from "notistack";
+import types from "./data/types.json";
+import users from "./data/users.json";
 
 const styles = theme => ({
   form: {
@@ -30,8 +32,8 @@ class LeftMainPanel extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      users: [],
-      types: [],
+      users: users,
+      types: types,
       form: {
         user: "",
         summ: "",
@@ -44,11 +46,12 @@ class LeftMainPanel extends Component {
   }
 
   async componentDidMount() {
-    const userResponse = await fetch("/api/users");
-    const bodyUsers = await userResponse.json();
-    const typeResponse = await fetch("/api/types");
-    const typeBody = await typeResponse.json();
-    this.setState({ users: bodyUsers, types: typeBody });
+    // const userResponse = await fetch("/api/users");
+    // const bodyUsers = await userResponse.json();
+    // const typeResponse = await fetch("/api/types");
+    // const typeBody = await typeResponse.json();
+
+    // this.setState({ users: bodyUsers, types: typeBody });
   }
 
   handleChange = name => event => {
