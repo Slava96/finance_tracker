@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 import { withStyles } from "@material-ui/core/styles";
@@ -13,12 +13,7 @@ import FormLabel from "@material-ui/core/FormLabel";
 import Radio from "@material-ui/core/Radio";
 import RadioGroup from "@material-ui/core/RadioGroup";
 import { InlineDatePicker } from "material-ui-pickers";
-import moment from "moment";
 import { withSnackbar } from "notistack";
-import types from "./data/types.json";
-import users from "./data/users.json";
-
-import callApi from './callApi'
 
 const styles = theme => ({
   form: {
@@ -30,7 +25,7 @@ const styles = theme => ({
   }
 });
 
-const LeftPanel = ({
+const LeftMainPanel = ({
   users,
   types,
   user,
@@ -40,7 +35,6 @@ const LeftPanel = ({
   type,
   comment,
   classes,
-  onChange,
   onDateChange,
   onRadioChange,
   onSubmit,
@@ -130,8 +124,8 @@ const LeftPanel = ({
   );
 }
 
-LeftPanel.propTypes = {
+LeftMainPanel.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default withSnackbar(withStyles(styles)(LeftPanel));
+export default withSnackbar(withStyles(styles)(LeftMainPanel));

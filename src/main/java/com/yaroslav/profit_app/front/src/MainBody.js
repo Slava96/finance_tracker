@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import LeftMainPanel from "./LeftMainPanel";
 import RightMainPanel from "./RightMainPanel";
 import Grid from "@material-ui/core/Grid";
-import { PieChart, Pie, Tooltip } from "recharts";
 import { MuiPickersUtilsProvider } from "material-ui-pickers";
 import MomentUtils from "@date-io/moment";
 
@@ -12,16 +11,6 @@ import types from "./data/types.json";
 import users from "./data/users.json";
 
 import callApi from './callApi'
-
-const styles = theme => ({
-  form: {
-    minWidth: 300,
-    marginTop: 15
-  },
-  formControl: {
-    marginBottom: 25
-  }
-});
 
 const COLORS = ["#4d79ff", "#009933", "#b38f00", "#ff1a1a"];
 
