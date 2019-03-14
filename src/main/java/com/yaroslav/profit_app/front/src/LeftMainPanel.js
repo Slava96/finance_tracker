@@ -53,7 +53,7 @@ class LeftMainPanel extends Component {
     // this.setState({ users: bodyUsers, types: typeBody });
   }
 
-  handleChange = name => event => {
+  makeHandleChange = name => event => {
     this.setState({
       form: {
         ...this.state.form,
@@ -137,90 +137,123 @@ class LeftMainPanel extends Component {
     } = this.state;
     const { classes } = this.props;
     return (
-      <>
-        <FormGroup className={classes.form}>
+      <LeftPanel
+        classes={classes}
+        users={users}
+        types={types}
+        user={user}
+        summ={summ}
+        date={date}
+        radioVal={radioVal}
+        type={type}
+        comment={comment}
+        onDateChange={this.handleDateChange}
+        onRadioChange={this.handleRadioChange}
+        onSubmit={this.handleSubmit}
+        makeOnChange={this.makeHandleChange}
+      />
+    );
+  }
+}
+
+const LeftPanel = ({
+  users,
+  types,
+  user,
+  summ,
+  date,
+  radioVal,
+  type,
+  comment,
+  classes,
+  onChange,
+  onDateChange,
+  onRadioChange,
+  onSubmit,
+  makeOnChange,
+}) => {
+  return (
+    <FormGroup className={classes.form}>
+      <FormControl className={classes.formControl}>
+        <InputLabel htmlFor="user_select">Пользователь</InputLabel>
+        <Select
+          value={user}
+          onChange={makeOnChange("user")}
+          inputProps={{
+            id: "user_select"
+          }}
+        >
+          {users.map(user => (
+            <MenuItem key={user.id} value={user}>
+              {user.name}
+            </MenuItem>
+          ))}
+        </Select>
+      </FormControl>
+      <TextField
+        className={classes.formControl}
+        type="number"
+        label="Сумма"
+        value={summ}
+        onChange={makeOnChange("summ")}
+        inputProps={{
+          min: "0"
+        }}
+      />
+      <InlineDatePicker
+        className={classes.formControl}
+        onlyCalendar
+        keyboard
+        label="Дата платежа"
+        format="DD.MM.YYYY"
+        value={date}
+        onChange={onDateChange}
+        disableFuture
+      />
+      <FormControl>
+        <FormLabel>Тип операции</FormLabel>
+        <RadioGroup value={radioVal} onChange={onRadioChange}>
+          <FormControlLabel
+            value="income"
+            control={<Radio color="primary" />}
+            label="Доходы"
+          />
+          <FormControlLabel
+            value="outcome"
+            control={<Radio color="primary" />}
+            label="Расходы"
+          />
+        </RadioGroup>
+        {radioVal === "outcome" ? (
           <FormControl className={classes.formControl}>
-            <InputLabel htmlFor="user_select">Пользователь</InputLabel>
+            <InputLabel htmlFor="type_select">Тип расходов</InputLabel>
             <Select
-              value={user}
-              onChange={this.handleChange("user")}
+              value={type}
+              onChange={makeOnChange("type")}
               inputProps={{
-                id: "user_select"
+                id: "type_select"
               }}
             >
-              {users.map(user => (
-                <MenuItem key={user.id} value={user}>
-                  {user.name}
+              {types.map(type => (
+                <MenuItem key={type.id} value={type}>
+                  {type.name}
                 </MenuItem>
               ))}
             </Select>
           </FormControl>
-          <TextField
-            className={classes.formControl}
-            type="number"
-            label="Сумма"
-            value={summ}
-            onChange={this.handleChange("summ")}
-            inputProps={{
-              min: "0"
-            }}
-          />
-          <InlineDatePicker
-            className={classes.formControl}
-            onlyCalendar
-            keyboard
-            label="Дата платежа"
-            format="DD.MM.YYYY"
-            value={date}
-            onChange={this.handleDateChange}
-            disableFuture
-          />
-          <FormControl>
-            <FormLabel>Тип операции</FormLabel>
-            <RadioGroup value={radioVal} onChange={this.handleRadioChange}>
-              <FormControlLabel
-                value="income"
-                control={<Radio color="primary" />}
-                label="Доходы"
-              />
-              <FormControlLabel
-                value="outcome"
-                control={<Radio color="primary" />}
-                label="Расходы"
-              />
-            </RadioGroup>
-            {radioVal === "outcome" ? (
-              <FormControl className={classes.formControl}>
-                <InputLabel htmlFor="type_select">Тип расходов</InputLabel>
-                <Select
-                  value={type}
-                  onChange={this.handleChange("type")}
-                  inputProps={{
-                    id: "type_select"
-                  }}
-                >
-                  {types.map(type => (
-                    <MenuItem key={type.id} value={type}>
-                      {type.name}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-            ) : null}
-          </FormControl>
-          <TextField
-            className={classes.formControl}
-            value={comment}
-            onChange={this.handleChange("comment")}
-            label="Комментарий"
-          />
-          <Button color="primary" onClick={this.handleSubmit}>
-            Добавить платеж
-          </Button>
-        </FormGroup>
-      </>
-    );
-  }
+        ) : null}
+      </FormControl>
+      <TextField
+        className={classes.formControl}
+        value={comment}
+        onChange={makeOnChange("comment")}
+        label="Комментарий"
+      />
+      <Button color="primary" onClick={onSubmit}>
+        Добавить платеж
+      </Button>
+    </FormGroup>
+  );
 }
 
 LeftMainPanel.propTypes = {
