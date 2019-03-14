@@ -14,8 +14,9 @@ import callApi from './callApi'
 
 const COLORS = ["#4d79ff", "#009933", "#b38f00", "#ff1a1a"];
 
-class LeftMainPanelContainer extends Component {
+class MainBody extends Component {
   state = {
+    // left
     users: users,
     types: types,
     form: {
@@ -25,10 +26,21 @@ class LeftMainPanelContainer extends Component {
       radioVal: "income",
       type: "",
       comment: ""
-    }
+    },
+    // right
+    // types: [],
+    chartData: results,
   };
 
   async componentDidMount() {
+    // left
+    // const typeBody = await callApi("/api/types");
+    // this.setState({
+    //   types: typeBody
+    // });
+    // this.toChartData();
+    //
+    // right
     // const bodyUsers = await callApi("/api/users");
     // const typeBody = await callApi("/api/types");
     // this.setState({ users: bodyUsers, types: typeBody });
@@ -111,49 +123,6 @@ class LeftMainPanelContainer extends Component {
       })
   };
 
-  render() {
-    const {
-      users,
-      types,
-      form: { user, summ, date, radioVal, type, comment }
-    } = this.state;
-    const { classes } = this.props;
-
-    const leftPanelProps = {
-      classes: classes,
-      users: users,
-      types: types,
-      user: user,
-      summ: summ,
-      date: date,
-      radioVal: radioVal,
-      type: type,
-      comment: comment,
-      onDateChange: this.handleDateChange,
-      onRadioChange: this.handleRadioChange,
-      onSubmit: this.handleSubmit,
-      makeOnChange: this.makeHandleChange,
-    }
-
-    return (
-      <LeftMainPanel {...leftPanelProps} />
-    );
-  }
-}
-
-class MainBody extends Component {
-  state = {
-    types: [],
-    chartData: results
-  };
-
-  async componentDidMount() {
-    // const typeBody = await callApi("/api/types");
-    // this.setState({
-    //   types: typeBody
-    // });
-    // this.toChartData();
-  }
 
   async toChartData() {
     const { types } = this.state;
@@ -180,6 +149,30 @@ class MainBody extends Component {
   render() {
     const { chartData } = this.state;
     const rightPanelProps = {chartData}
+
+    const {
+      users,
+      types,
+      form: { user, summ, date, radioVal, type, comment }
+    } = this.state;
+    const { classes } = this.props;
+
+    const leftPanelProps = {
+      classes: classes,
+      users: users,
+      types: types,
+      user: user,
+      summ: summ,
+      date: date,
+      radioVal: radioVal,
+      type: type,
+      comment: comment,
+      onDateChange: this.handleDateChange,
+      onRadioChange: this.handleRadioChange,
+      onSubmit: this.handleSubmit,
+      makeOnChange: this.makeHandleChange,
+    }
+
     return (
       <MuiPickersUtilsProvider utils={MomentUtils}>
         <Grid
@@ -188,7 +181,7 @@ class MainBody extends Component {
           justify="space-around"
           alignItems="flex-start"
         >
-          <LeftMainPanelContainer />
+          <LeftMainPanel {...leftPanelProps} />
           <RightMainPanel {...rightPanelProps} />
         </Grid>
       </MuiPickersUtilsProvider>
