@@ -33,14 +33,14 @@ class MainBody extends Component {
   };
 
   async componentDidMount() {
-    // left
+    // right
     // const typeBody = await callApi("/api/types");
     // this.setState({
     //   types: typeBody
     // });
     // this.toChartData();
     //
-    // right
+    // left
     // const bodyUsers = await callApi("/api/users");
     // const typeBody = await callApi("/api/types");
     // this.setState({ users: bodyUsers, types: typeBody });
@@ -120,6 +120,13 @@ class MainBody extends Component {
             comment: ""
           }
         });
+      })
+      .then(async () => {
+        const typeBody = await callApi("/api/types");
+        this.setState({
+          types: typeBody
+        });
+        this.toChartData();
       })
   };
 
