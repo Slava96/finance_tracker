@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { withStyles } from "@material-ui/core/styles";
 import TypeHistoryChart from "./TypeHistoryChart";
-import ChartFilters from "./ChartFilters";
 
 const styles = theme => ({
   root: {
@@ -14,7 +13,6 @@ class RightMainPanel extends Component {
     const { classes } = this.props;
     return (
       <div className={classes.root}>
-        <ChartFilters />
         <TypeHistoryChart />
       </div>
     );

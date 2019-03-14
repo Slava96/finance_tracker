@@ -114,7 +114,6 @@ class LeftMainPanel extends Component {
           variant: "error"
         });
       });
-    this.props.onPayAdd();
 
     this.setState({
       form: {

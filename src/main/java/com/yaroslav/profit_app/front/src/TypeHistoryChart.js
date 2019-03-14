@@ -17,6 +17,7 @@ class TypeHistoryChart extends Component {
     this.setState({
       types: typeBody
     });
+    this.toChartData();
   }
 
   async toChartData() {
