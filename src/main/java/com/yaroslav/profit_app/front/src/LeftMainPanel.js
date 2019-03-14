@@ -136,22 +136,25 @@ class LeftMainPanel extends Component {
       form: { user, summ, date, radioVal, type, comment }
     } = this.state;
     const { classes } = this.props;
+
+    const leftPanelProps = {
+      classes: classes,
+      users: users,
+      types: types,
+      user: user,
+      summ: summ,
+      date: date,
+      radioVal: radioVal,
+      type: type,
+      comment: comment,
+      onDateChange: this.handleDateChange,
+      onRadioChange: this.handleRadioChange,
+      onSubmit: this.handleSubmit,
+      makeOnChange: this.makeHandleChange,
+    }
+
     return (
-      <LeftPanel
-        classes={classes}
-        users={users}
-        types={types}
-        user={user}
-        summ={summ}
-        date={date}
-        radioVal={radioVal}
-        type={type}
-        comment={comment}
-        onDateChange={this.handleDateChange}
-        onRadioChange={this.handleRadioChange}
-        onSubmit={this.handleSubmit}
-        makeOnChange={this.makeHandleChange}
-      />
+      <LeftPanel {...leftPanelProps} />
     );
   }
 }
