@@ -18,6 +18,8 @@ import { withSnackbar } from "notistack";
 import types from "./data/types.json";
 import users from "./data/users.json";
 
+import callApi from './callApi'
+
 const styles = theme => ({
   form: {
     minWidth: 300,
@@ -46,11 +48,8 @@ class LeftMainPanel extends Component {
   }
 
   async componentDidMount() {
-    // const userResponse = await fetch("/api/users");
-    // const bodyUsers = await userResponse.json();
-    // const typeResponse = await fetch("/api/types");
-    // const typeBody = await typeResponse.json();
-
+    // const bodyUsers = await callApi("/api/users");
+    // const typeBody = await callApi("/api/types");
     // this.setState({ users: bodyUsers, types: typeBody });
   }
 

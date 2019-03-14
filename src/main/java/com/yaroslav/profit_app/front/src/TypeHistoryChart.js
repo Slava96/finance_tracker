@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import { PieChart, Pie, Tooltip } from "recharts";
 import results from "./data/results.json";
 
+import callApi from './callApi'
+
 const COLORS = ["#4d79ff", "#009933", "#b38f00", "#ff1a1a"];
 
 class TypeHistoryChart extends Component {
@@ -14,7 +16,7 @@ class TypeHistoryChart extends Component {
   }
 
   async componentDidMount() {
-    const typeBody = await (await fetch("/api/types")).json();
+    const typeBody = await callApi("/api/types");
     this.setState({
       types: typeBody
     });
@@ -25,7 +27,7 @@ class TypeHistoryChart extends Component {
     const { types } = this.state;
     const resultData = [];
     for (const [index, type] of types.entries()) {
-      let records = await (await fetch(`/api/records/${type.id}`)).json();
+      let records = await callApi(`/api/records/${type.id}`);
       records = Array.from(records);
       let summ = 0;
       records.map((record, i) => {
@@ -38,7 +40,7 @@ class TypeHistoryChart extends Component {
         fill: COLORS[index % 4]
       });
     }
-    
+
     this.setState({
       chartData: resultData
     });
