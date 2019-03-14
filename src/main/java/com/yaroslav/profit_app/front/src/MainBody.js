@@ -15,21 +15,18 @@ import callApi from './callApi'
 const COLORS = ["#4d79ff", "#009933", "#b38f00", "#ff1a1a"];
 
 class LeftMainPanelContainer extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      users: users,
-      types: types,
-      form: {
-        user: "",
-        summ: "",
-        date: moment(),
-        radioVal: "income",
-        type: "",
-        comment: ""
-      }
-    };
-  }
+  state = {
+    users: users,
+    types: types,
+    form: {
+      user: "",
+      summ: "",
+      date: moment(),
+      radioVal: "income",
+      type: "",
+      comment: ""
+    }
+  };
 
   async componentDidMount() {
     // const bodyUsers = await callApi("/api/users");
@@ -99,18 +96,19 @@ class LeftMainPanelContainer extends Component {
         this.props.enqueueSnackbar("Платеж не сохранен", {
           variant: "error"
         });
-      });
-
-    this.setState({
-      form: {
-        user: "",
-        summ: "",
-        date: moment(),
-        radioVal: "income",
-        type: "",
-        comment: ""
-      }
-    });
+      })
+      .then(() => {
+        this.setState({
+          form: {
+            user: "",
+            summ: "",
+            date: moment(),
+            radioVal: "income",
+            type: "",
+            comment: ""
+          }
+        });
+      })
   };
 
   render() {
@@ -143,20 +141,17 @@ class LeftMainPanelContainer extends Component {
   }
 }
 
-class RightMainPanelContainer extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      types: [],
-      chartData: results
-    };
-  }
+class MainBody extends Component {
+  state = {
+    types: [],
+    chartData: results
+  };
 
   async componentDidMount() {
-    const typeBody = await callApi("/api/types");
-    this.setState({
-      types: typeBody
-    });
+    // const typeBody = await callApi("/api/types");
+    // this.setState({
+    //   types: typeBody
+    // });
     // this.toChartData();
   }
 
@@ -182,17 +177,9 @@ class RightMainPanelContainer extends Component {
       chartData: resultData
     });
   }
-
   render() {
     const { chartData } = this.state;
-    return (
-      <RightMainPanel chartData={chartData}/>
-    );
-  }
-}
-
-class MainBody extends Component {
-  render() {
+    const rightPanelProps = {chartData}
     return (
       <MuiPickersUtilsProvider utils={MomentUtils}>
         <Grid
@@ -202,7 +189,7 @@ class MainBody extends Component {
           alignItems="flex-start"
         >
           <LeftMainPanelContainer />
-          <RightMainPanelContainer />
+          <RightMainPanel {...rightPanelProps} />
         </Grid>
       </MuiPickersUtilsProvider>
     );
