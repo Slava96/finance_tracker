@@ -30,135 +30,6 @@ const styles = theme => ({
   }
 });
 
-class LeftMainPanel extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      users: users,
-      types: types,
-      form: {
-        user: "",
-        summ: "",
-        date: moment(),
-        radioVal: "income",
-        type: "",
-        comment: ""
-      }
-    };
-  }
-
-  async componentDidMount() {
-    // const bodyUsers = await callApi("/api/users");
-    // const typeBody = await callApi("/api/types");
-    // this.setState({ users: bodyUsers, types: typeBody });
-  }
-
-  makeHandleChange = name => event => {
-    this.setState({
-      form: {
-        ...this.state.form,
-        [name]: event.target.value
-      }
-    });
-  };
-
-  handleRadioChange = event => {
-    const type = (event.target.value==="income"? "":this.state.form.type);
-    this.setState({
-      form: {
-        ...this.state.form,
-        radioVal : event.target.value,
-        type : type
-      }
-    });
-  };
-
-  handleDateChange = date => {
-    this.setState({
-      form: {
-        ...this.state.form,
-        date
-      }
-    });
-  };
-
-  handleSubmit = e => {
-    const {
-      form: { user, summ, date, radioVal, type, comment }
-    } = this.state;
-    const endSumm = Number.isNaN(parseFloat(summ)) ? 0 : parseFloat(summ);
-    const endIncome = radioVal === "income" ? true : false;
-    e.preventDefault();
-    fetch("/api/record", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        summ: endSumm.toFixed(2),
-        isIncome: endIncome,
-        comment: comment,
-        user: user,
-        type: type === "" ? null : type,
-        date: date.format("DD.MM.YYYY")
-      })
-    })
-      .then(response => {
-        if (response.ok) {
-          this.props.enqueueSnackbar("Платеж успешно сохранен", {
-            variant: "success"
-          });
-        } else {
-          throw new Error("Платеж не сохранен!");
-        }
-      })
-      .catch(err => {
-        console.log("Error ", err);
-        this.props.enqueueSnackbar("Платеж не сохранен", {
-          variant: "error"
-        });
-      });
-
-    this.setState({
-      form: {
-        user: "",
-        summ: "",
-        date: moment(),
-        radioVal: "income",
-        type: "",
-        comment: ""
-      }
-    });
-  };
-
-  render() {
-    const {
-      users,
-      types,
-      form: { user, summ, date, radioVal, type, comment }
-    } = this.state;
-    const { classes } = this.props;
-
-    const leftPanelProps = {
-      classes: classes,
-      users: users,
-      types: types,
-      user: user,
-      summ: summ,
-      date: date,
-      radioVal: radioVal,
-      type: type,
-      comment: comment,
-      onDateChange: this.handleDateChange,
-      onRadioChange: this.handleRadioChange,
-      onSubmit: this.handleSubmit,
-      makeOnChange: this.makeHandleChange,
-    }
-
-    return (
-      <LeftPanel {...leftPanelProps} />
-    );
-  }
-}
-
 const LeftPanel = ({
   users,
   types,
@@ -259,8 +130,8 @@ const LeftPanel = ({
   );
 }
 
-LeftMainPanel.propTypes = {
+LeftPanel.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default withSnackbar(withStyles(styles)(LeftMainPanel));
+export default withSnackbar(withStyles(styles)(LeftPanel));
